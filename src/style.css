@@ -1,0 +1,112 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+:root {
+  --font-family: "Trebuchet MS", "Helvetica", sans-serif;
+}
+
+body {
+  background: black;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.title {
+  user-select: none;
+  font-size: 30px;
+  font-family: var(--font-family);
+  text-shadow: -2px -1px 3px #00f8ff;
+  color: #000000;
+  letter-spacing: 4px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  border-radius: 25px;
+  box-shadow: 0px 3px 10px 3px #b8feff;
+  padding: 15px;
+}
+
+.input-text {
+  width: 700px;
+  height: 200px;
+  padding: 10px;
+  font-size: 18px;
+  line-height: 1.15;
+  font-family: "Trebuchet MS", "Helvetica", sans-serif;
+  outline: none;
+  resize: none;
+  background: black;
+  border: 5px solid #00f8ff;
+  color: #d7ffff;
+  border-radius: 10px;
+}
+
+.description {
+  font-family: "Trebuchet MS", "Helvetica", sans-serif;
+  line-height: 1.15;
+  font-size: 16px;
+  color: white;
+  user-select: none;
+}
+
+.keyboard {
+  width: 704px;
+  display: flex;
+  gap: 8px 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+}
+
+.key {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  align-items: center;
+  transition: 0.2s;
+  user-select: none;
+  font-family: "Trebuchet MS", "Helvetica", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  background: black;
+  border-left: 3px inset black;
+  border-top: 3px inset black;
+  border-bottom: 3px inset #00f8ff;
+  border-right: 3px inset #00f8ff;
+  color: powderblue;
+  box-shadow: 2px 2px 3px -1px white;
+}
+
+.key:hover {
+  color: white;
+  border-radius: 5px;
+  border-left: 1px inset white;
+  border-top: 1px inset white;
+}
+
+.key:active {
+  background: #002224;
+  color: white;
+  border-radius: 15px;
+  border-left: 1px inset #00f8ff;
+  border-top: 1px inset #00f8ff;
+  border-bottom: 2px inset #00f8ff;
+  border-right: 2px inset #00f8ff;
+  transform: scale(0.97) translateY(2px);
+  box-shadow: none;
+}
