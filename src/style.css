@@ -114,5 +114,12 @@ body {
 }
 
 .keyIndicator {
-  position: absolute;
+  width: 5px;
+  height: 10px;
+  background: gray;
+  margin-left: 8px;
+}
+
+.keyIndicator.isActive {
+  background: white;
 }
