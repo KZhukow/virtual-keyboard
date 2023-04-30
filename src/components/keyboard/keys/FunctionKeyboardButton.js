@@ -2,7 +2,7 @@ import { pressedKeyClassName } from '../../utils/const';
 import { getKeyboardKey } from '../../utils/utils';
 
 export default class FunctionKeyboardButton {
-  constructor(root, keyCode, keyName, actions, width = undefined) {
+  constructor(root, keyCode, keyName, actions = [], width = undefined) {
     this.root = root;
     this.keyCode = keyCode;
     this.keyName = keyName;
