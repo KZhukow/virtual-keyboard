@@ -11,7 +11,8 @@ export default class App {
 
   constructor() {
     this.language = getCurrentLanguage();
-    this.isShiftPressed = false;
+    this.isLeftShiftPressed = false;
+    this.isRightShiftPressed = false;
     this.isCapsPressed = false;
     this.isAltPressed = false;
     this.keysType = keyboardDefaultStateKey;
@@ -47,18 +48,30 @@ export default class App {
   };
 
   setKeysType() {
-    if (!this.isShiftPressed && !this.isCapsPressed) this.keysType = keyboardDefaultStateKey;
-    if (this.isShiftPressed && !this.isCapsPressed) this.keysType = keyboardShiftStateKey;
-    if (!this.isShiftPressed && this.isCapsPressed) this.keysType = keyboardCapsStateKey;
-    if (this.isShiftPressed && this.isCapsPressed) this.keysType = keyboardShiftCapsStateKey;
+    const isShift = this.isLeftShiftPressed || this.isRightShiftPressed;
+    const isCaps = this.isCapsPressed;
+    if (!isShift && !isCaps) this.keysType = keyboardDefaultStateKey;
+    if (isShift && !isCaps) this.keysType = keyboardShiftStateKey;
+    if (!isShift && isCaps) this.keysType = keyboardCapsStateKey;
+    if (isShift && isCaps) this.keysType = keyboardShiftCapsStateKey;
   }
 
-  setIsShiftPressed = (value) => {
-    this.isShiftPressed = value;
+  setIsLeftShiftPressed = (value) => {
+    this.isLeftShiftPressed = value;
+  };
+
+  setIsRightShiftPressed = (value) => {
+    this.isRightShiftPressed = value;
   };
 
   switchIsCapsPressed = () => {
     this.isCapsPressed = !this.isCapsPressed;
+  };
+
+  resetPressedStates = () => {
+    this.isLeftShiftPressed = false;
+    this.isRightShiftPressed = false;
+    this.isAltPressed = false;
   };
 
   changeInputState(callback, ...args) {
@@ -69,7 +82,10 @@ export default class App {
 
   changeKeysTypeState(callback, ...args) {
     callback(...args);
+    const oldShiftState = this.keysType;
     this.setKeysType();
+    const newShiftState = this.keysType;
+    if (oldShiftState === newShiftState) return;
     this.keyboard.setKeysValue();
   }
 
@@ -89,10 +105,11 @@ export default class App {
     window.addEventListener('keydown', (e) => { e.preventDefault(); });
     window.addEventListener('keyup', (e) => { e.preventDefault(); });
     window.addEventListener('blur', () => {
-      this
-        .keyboard
-        .keysData
-        .forEach((key) => key.getElement().classList.remove(pressedKeyClassName));
+      this.keyboard.keysData.forEach((key) => {
+        key.getElement().classList.remove(pressedKeyClassName);
+        key.resetClickedState?.();
+      });
+      this.changeKeysTypeState(this.resetPressedStates);
     });
   }
 }

@@ -8,33 +8,42 @@ export default class SetKeyboardTypeButton {
     this.keyName = keyName;
     this.setState = setState;
     this.isIndicatorKey = isIndicator;
+    this.isKeyClicked = false;
+    this.isKeyPressed = false;
 
     this.key = getKeyboardKey(this.keyCode, width, this.keyName, isIndicator);
-
     this.key.addEventListener('mousedown', () => {
-      this.root.changeKeysTypeState(this.setState, true);
-      if (isIndicator) {
-        this.toggleIndicator();
-      }
-    });
-    this.key.addEventListener('mouseup', () => {
-      if (!this.isIndicatorKey) {
-        this.root.changeKeysTypeState(this.setState, false);
-      }
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.code === this.keyCode && !e.repeat) {
+      this.isKeyClicked = true;
+      if (!this.isKeyPressed) {
         this.root.changeKeysTypeState(this.setState, true);
-        this.key.classList.add(pressedKeyClassName);
         if (isIndicator) {
           this.toggleIndicator();
         }
       }
     });
+    window.addEventListener('mouseup', () => {
+      if (this.isKeyClicked && !this.isIndicatorKey && !this.isKeyPressed) {
+        this.root.changeKeysTypeState(this.setState, false);
+      }
+      this.isKeyClicked = false;
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === this.keyCode && !e.repeat) {
+        this.isKeyPressed = true;
+        if (!this.isKeyClicked) {
+          this.root.changeKeysTypeState(this.setState, true);
+          if (isIndicator) {
+            this.toggleIndicator();
+          }
+        }
+        this.key.classList.add(pressedKeyClassName);
+      }
+    });
     window.addEventListener('keyup', (e) => {
       if (e.code === this.keyCode) {
-        if (!this.isIndicatorKey) {
+        this.isKeyPressed = false;
+        if (!this.isIndicatorKey && !this.isKeyClicked) {
           this.root.changeKeysTypeState(this.setState, false);
         }
         this.key.classList.remove(pressedKeyClassName);
@@ -49,5 +58,10 @@ export default class SetKeyboardTypeButton {
   toggleIndicator() {
     const indicator = this.getElement().querySelector(`#${this.keyCode}Indicator`);
     indicator.classList.toggle('isActive');
+  }
+
+  resetClickedState() {
+    this.isKeyClicked = false;
+    this.isKeyPressed = false;
   }
 }
