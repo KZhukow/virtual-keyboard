@@ -53,9 +53,9 @@ export default class App {
     if (this.isShiftPressed && this.isCapsPressed) this.keysType = keyboardShiftCapsStateKey;
   }
 
-  setIsShiftPressed(value) {
+  setIsShiftPressed = (value) => {
     this.isShiftPressed = value;
-  }
+  };
 
   switchIsCapsPressed = () => {
     this.isCapsPressed = !this.isCapsPressed;
