@@ -77,6 +77,7 @@ body {
   display: flex;
   justify-content: center;
   height: 40px;
+  width: 40px;
   align-items: center;
   transition: 0.2s;
   user-select: none;
@@ -99,7 +100,8 @@ body {
   border-top: 1px inset white;
 }
 
-.key:active {
+.key:active,
+.key.isKeyPressed {
   background: #002224;
   color: white;
   border-radius: 15px;
@@ -109,4 +111,8 @@ body {
   border-right: 2px inset #00f8ff;
   transform: scale(0.97) translateY(2px);
   box-shadow: none;
+}
+
+.keyIndicator {
+  position: absolute;
 }
