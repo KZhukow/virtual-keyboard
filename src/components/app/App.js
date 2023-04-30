@@ -53,18 +53,24 @@ export default class App {
     if (this.isShiftPressed && this.isCapsPressed) this.keysType = keyboardShiftCapsStateKey;
   }
 
-  switchIsShiftPressed() {
-    this.isShiftPressed = !this.isShiftPressed;
+  setIsShiftPressed(value) {
+    this.isShiftPressed = value;
   }
 
-  switchIsCapsPressed() {
+  switchIsCapsPressed = () => {
     this.isCapsPressed = !this.isCapsPressed;
-  }
+  };
 
   changeInputState(callback, ...args) {
     callback(...args);
     this.inputField.setInputValue(this.inputValue);
     this.inputField.setCursorPosition(this.startCursorPosition, this.ensCursorPosition);
+  }
+
+  changeKeysTypeState(callback, ...args) {
+    callback(...args);
+    this.setKeysType();
+    this.keyboard.setKeysValue();
   }
 
   start() {
