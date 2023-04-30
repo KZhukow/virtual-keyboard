@@ -24,13 +24,13 @@ export default class CharacterKeyboardButton {
         [keyboardDefaultStateKey]: ruDefault,
         [keyboardShiftStateKey]: ruShift,
         [keyboardCapsStateKey]: ruDefault.toUpperCase(),
-        [keyboardShiftCapsStateKey]: ruShift.toUpperCase(), // ТУТ ЛОВЕР кейс
+        [keyboardShiftCapsStateKey]: ruShift.toLowerCase(),
       },
       [enLangKey]: {
         [keyboardDefaultStateKey]: enDefault,
         [keyboardShiftStateKey]: enShift,
         [keyboardCapsStateKey]: enDefault.toUpperCase(),
-        [keyboardShiftCapsStateKey]: enShift.toUpperCase(), // тут ловер кейс
+        [keyboardShiftCapsStateKey]: enShift.toLowerCase(),
       },
     };
 
