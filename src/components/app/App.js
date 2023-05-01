@@ -3,15 +3,18 @@ import Keyboard from '../keyboard/Keyboard';
 import SegmentedControl from '../segmentedControl/SegmentedControl';
 import {
   keyboardCapsStateKey, keyboardDefaultStateKey, keyboardShiftCapsStateKey,
-  keyboardShiftStateKey, pressedKeyClassName, enLangKey, ruLangKey,
+  keyboardShiftStateKey, pressedKeyClassName, enLangKey, ruLangKey, darkThemeKey, lightThemeKey,
 } from '../utils/const';
-import { getCurrentLanguage, setLocalStorageLanguage } from '../utils/utils';
+import {
+  getCurrentLanguage, getCurrentTheme, setLocalStorageLanguage, setLocalStorageTheme,
+} from '../utils/utils';
 
 export default class App {
   body = document.body;
 
   constructor() {
     this.language = getCurrentLanguage();
+    this.theme = getCurrentTheme();
     this.isLanguageSwitched = false;
     this.isLeftShiftPressed = false;
     this.isRightShiftPressed = false;
@@ -24,6 +27,7 @@ export default class App {
     this.keyboard = new Keyboard(this);
     this.inputField = new InputField(this);
     this.languageSegmentedControl = new SegmentedControl(this.language, 'EN', enLangKey, 'RU', ruLangKey, this.switchSegmentedControlLanguage);
+    this.themeSegmentedControl = new SegmentedControl(this.theme, '🌑', darkThemeKey, '🌞', lightThemeKey, this.switchTheme);
   }
 
   addInputValueSymbol = (symbol) => {
@@ -118,6 +122,13 @@ export default class App {
     this.keyboard.setKeysValue();
   }
 
+  switchTheme = () => {
+    this.theme = this.theme === darkThemeKey ? lightThemeKey : darkThemeKey;
+    setLocalStorageTheme(this.theme);
+    this.body.setAttribute('theme', this.theme);
+    return this.theme;
+  };
+
   start() {
     this.body.insertAdjacentHTML('afterbegin', `
     <div class="container">
@@ -130,9 +141,11 @@ export default class App {
       <p class="description">Switch language: left alt + shift</p>
     </div>
   `);
+    this.body.setAttribute('theme', this.theme);
     this.body.querySelector('.main').appendChild(this.inputField.getElement());
     this.body.querySelector('.main').appendChild(this.keyboard.keyboardContainer);
     this.body.querySelector('.optionalButtons').appendChild(this.languageSegmentedControl.getElement());
+    this.body.querySelector('.optionalButtons').appendChild(this.themeSegmentedControl.getElement());
 
     window.addEventListener('keydown', (e) => { e.preventDefault(); });
     window.addEventListener('keyup', (e) => { e.preventDefault(); });

@@ -1,7 +1,14 @@
-import { enLangKey, languageKeyTypes, storageLanguageKey } from './const';
+import {
+  darkThemeKey,
+  enLangKey, languageKeyTypes, storageLanguageKey, storageThemeKey, themeKeyTypes,
+} from './const';
 
 export function setLocalStorageLanguage(lang) {
   localStorage.setItem(storageLanguageKey, lang);
+}
+
+export function setLocalStorageTheme(theme) {
+  localStorage.setItem(storageThemeKey, theme);
 }
 
 export function getCurrentLanguage() {
@@ -11,6 +18,15 @@ export function getCurrentLanguage() {
   }
   localStorage.setItem(storageLanguageKey, enLangKey);
   return enLangKey;
+}
+
+export function getCurrentTheme() {
+  const value = localStorage.getItem(storageThemeKey);
+  if (themeKeyTypes.includes(value)) {
+    return value;
+  }
+  localStorage.setItem(storageThemeKey, darkThemeKey);
+  return darkThemeKey;
 }
 
 export function getKeyboardContainer() {
