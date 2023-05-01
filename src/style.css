@@ -54,6 +54,24 @@ body {
   border: 5px solid #00f8ff;
   color: #d7ffff;
   border-radius: 10px;
+  scrollbar-base-color: #b8feff;
+}
+
+.input-text::-webkit-scrollbar {
+  width: 12px;
+  background-color: black;
+}
+
+.input-text::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #00f8ff;
+}
+
+.input-text::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #bcffff;
 }
 
 .description {
