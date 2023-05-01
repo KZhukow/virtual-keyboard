@@ -1,5 +1,6 @@
 import InputField from '../inputField/InputField';
 import Keyboard from '../keyboard/Keyboard';
+import SegmentedControl from '../segmentedControl/SegmentedControl';
 import {
   keyboardCapsStateKey, keyboardDefaultStateKey, keyboardShiftCapsStateKey,
   keyboardShiftStateKey, pressedKeyClassName, enLangKey, ruLangKey,
@@ -22,6 +23,7 @@ export default class App {
     this.ensCursorPosition = 0;
     this.keyboard = new Keyboard(this);
     this.inputField = new InputField(this);
+    this.languageSegmentedControl = new SegmentedControl(this.language, 'EN', enLangKey, 'RU', ruLangKey, this.switchSegmentedControlLanguage);
   }
 
   addInputValueSymbol = (symbol) => {
@@ -95,8 +97,16 @@ export default class App {
       this.language = this.language === ruLangKey ? enLangKey : ruLangKey;
       setLocalStorageLanguage(this.language);
       this.isLanguageSwitched = true;
+      this.languageSegmentedControl.changeBtnState(this.language);
     }
   }
+
+  switchSegmentedControlLanguage = () => {
+    this.language = this.language === ruLangKey ? enLangKey : ruLangKey;
+    setLocalStorageLanguage(this.language);
+    this.keyboard.setKeysValue();
+    return this.language;
+  };
 
   changeKeysTypeState(callback, ...args) {
     callback(...args);
@@ -114,12 +124,15 @@ export default class App {
       <p class="title">RSS Virtual Keyboard</p>
       <div class="main">
       </div>
+      <div class="optionalButtons">
+      </div>
       <p class="description">Keyboard created in Windows</p>
       <p class="description">Switch language: left alt + shift</p>
     </div>
   `);
     this.body.querySelector('.main').appendChild(this.inputField.getElement());
     this.body.querySelector('.main').appendChild(this.keyboard.keyboardContainer);
+    this.body.querySelector('.optionalButtons').appendChild(this.languageSegmentedControl.getElement());
 
     window.addEventListener('keydown', (e) => { e.preventDefault(); });
     window.addEventListener('keyup', (e) => { e.preventDefault(); });
