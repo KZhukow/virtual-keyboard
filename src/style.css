@@ -134,10 +134,13 @@ body {
 .keyIndicator {
   width: 5px;
   height: 10px;
-  background: gray;
+  background: #464646;
   margin-left: 8px;
+  border-radius: 3px;
+  transition: 0.3s;
 }
 
 .keyIndicator.isActive {
   background: white;
+  box-shadow: 0 0 5px 2px #fff;
 }
