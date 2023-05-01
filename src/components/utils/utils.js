@@ -1,5 +1,9 @@
 import { enLangKey, languageKeyTypes, storageLanguageKey } from './const';
 
+export function setLocalStorageLanguage(lang) {
+  localStorage.setItem(storageLanguageKey, lang);
+}
+
 export function getCurrentLanguage() {
   const value = localStorage.getItem(storageLanguageKey);
   if (languageKeyTypes.includes(value)) {

@@ -2,15 +2,16 @@ import InputField from '../inputField/InputField';
 import Keyboard from '../keyboard/Keyboard';
 import {
   keyboardCapsStateKey, keyboardDefaultStateKey, keyboardShiftCapsStateKey,
-  keyboardShiftStateKey, pressedKeyClassName,
+  keyboardShiftStateKey, pressedKeyClassName, enLangKey, ruLangKey,
 } from '../utils/const';
-import { getCurrentLanguage } from '../utils/utils';
+import { getCurrentLanguage, setLocalStorageLanguage } from '../utils/utils';
 
 export default class App {
   body = document.body;
 
   constructor() {
     this.language = getCurrentLanguage();
+    this.isLanguageSwitched = false;
     this.isLeftShiftPressed = false;
     this.isRightShiftPressed = false;
     this.isCapsPressed = false;
@@ -58,10 +59,17 @@ export default class App {
 
   setIsLeftShiftPressed = (value) => {
     this.isLeftShiftPressed = value;
+    if (!value && !this.isRightShiftPressed) this.isLanguageSwitched = false;
   };
 
   setIsRightShiftPressed = (value) => {
     this.isRightShiftPressed = value;
+    if (!value && !this.isLeftShiftPressed) this.isLanguageSwitched = false;
+  };
+
+  setIsAltPressed = (value) => {
+    this.isAltPressed = value;
+    if (!value) this.isLanguageSwitched = false;
   };
 
   switchIsCapsPressed = () => {
@@ -80,12 +88,23 @@ export default class App {
     this.inputField.setCursorPosition(this.startCursorPosition, this.ensCursorPosition);
   }
 
+  switchLanguage() {
+    if (this.isLanguageSwitched) return;
+    const isShift = this.isLeftShiftPressed || this.isRightShiftPressed;
+    if (isShift && this.isAltPressed) {
+      this.language = this.language === ruLangKey ? enLangKey : ruLangKey;
+      setLocalStorageLanguage(this.language);
+      this.isLanguageSwitched = true;
+    }
+  }
+
   changeKeysTypeState(callback, ...args) {
     callback(...args);
-    const oldShiftState = this.keysType;
+    const { language: oldLang, keysType: oldKeysType } = this;
     this.setKeysType();
-    const newShiftState = this.keysType;
-    if (oldShiftState === newShiftState) return;
+    this.switchLanguage();
+    const { language: newLang, keysType: newKeysType } = this;
+    if (oldKeysType === newKeysType && oldLang === newLang) return;
     this.keyboard.setKeysValue();
   }
 
